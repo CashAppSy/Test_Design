@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zain | Bundles Tab V3</title>
+<style>
+:root{
+  --ink:#10343c;
+  --muted:#54747f;
+  --accent:#19abb6;
+  --accent-dark:#0f94a4;
+  --soft:#f7fff9;
+  --line:#ffffffde;
+  --shadow:#17586218;
+}
+*{box-sizing:border-box}
+html,body{height:100%}body{margin:0;background:#e4efea;color:var(--ink);font:500 13px/1.4 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.phone{
+  width:min(390px,100vw);height:min(844px,100dvh);margin:22px auto;position:relative;overflow:hidden;
+  border-radius:28px;box-shadow:0 20px 55px #1e5b5450;
+  background:radial-gradient(circle at 55% -4%,#d9e933 0,#b0d636 19%,transparent 44%),linear-gradient(160deg,#b2d73d,#69c486 46%,#22afae);
+}
+.scroll{height:100%;overflow-y:auto;scrollbar-width:none;padding:15px 15px calc(118px + env(safe-area-inset-bottom,0px));overscroll-behavior-y:contain}
+.scroll::-webkit-scrollbar,.rail::-webkit-scrollbar,.filters::-webkit-scrollbar{display:none}
+.top{height:49px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.logo{font-weight:850;font-size:34px;line-height:1;letter-spacing:-2px;color:#06201d}
+.logo::before{content:'◎';font-size:30px;margin-right:2px}
+.tools{display:flex;gap:8px}.tool{width:43px;height:43px;flex:none;border-radius:50%;display:grid;place-items:center;background:#eff8de;border:1px solid #fff;font-size:18px;position:relative}
+.tool.bell::after{content:'3';position:absolute;right:-3px;top:-4px;font-size:10px;color:#fff;background:#ee435c;border-radius:50%;padding:2px 5px}
+.hero{background:linear-gradient(115deg,#14b6bd,#168fbd 68%,#286bb2);border-radius:21px;padding:18px 17px;min-height:92px;color:#fff;position:relative;overflow:hidden;box-shadow:0 10px 25px #148c9b2b;margin-bottom:14px;display:flex;flex-direction:column;justify-content:center}
+.hero::after{content:'';position:absolute;width:210px;height:210px;border:1px solid #ffffff20;border-radius:50%;right:-50px;top:-110px;box-shadow:0 0 0 35px #ffffff08}
+.eyebrow{font-size:11px;font-weight:700;opacity:.92}.hero h1{font-size:24px;letter-spacing:-.65px;line-height:1.15;margin:0 0 4px;font-weight:900}.hero p{margin:0;font-size:12px;color:#e8feff;max-width:210px;line-height:1.35}
+.filters{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:0 0 13px}
+.chip{border:1px solid #ffffffb8;background:#e9f8eceb;border-radius:28px;padding:9px 14px;min-height:38px;white-space:nowrap;font-size:11px;font-weight:800;color:#4d727e}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.section{margin:0 0 18px}
+.section-head{display:flex;align-items:center;gap:12px;margin:2px 2px 10px;padding:1px 0}
+.section-icon{width:56px;height:56px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#16b6bd,#327cc6);color:#fff;box-shadow:0 8px 18px #168a9a26}.section-icon svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round}
+.section-copy{min-width:0}
+.section-title{font-size:18px;line-height:1.05;font-weight:900;letter-spacing:-.35px;color:#163f57}
+.section-desc{font-size:10px;margin-top:5px;color:#7391a8;line-height:1.25;font-weight:700}
+.rail{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:1px 1px 8px;overscroll-behavior-x:contain}
+.bundle{
+  flex:0 0 168px;width:168px;height:183px;border-radius:18px;border:1px solid var(--line);
+  background:#fbfffd;box-shadow:0 6px 14px var(--shadow);overflow:hidden;display:flex;flex-direction:column;
+}
+.cover{
+  height:57px;position:relative;flex:none;padding:9px 10px;color:#fff;
+  background:radial-gradient(circle at 80% -18%,#ffffff82,transparent 50%),linear-gradient(125deg,#18b6c2,#6de5e1 52%,#387bc5);
+}
+.bundle.combo .cover{background:linear-gradient(115deg,#35cabb,#66c4ef 60%,#398ec8)}
+.bundle.roaming .cover{background:linear-gradient(110deg,#7aa9e9,#93e9e9)}
+.bundle.offer .cover{background:linear-gradient(110deg,#be55cb,#699cfa)}
+.cover-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.cover-name{font-size:12px;font-weight:900;line-height:1.12;max-width:112px;letter-spacing:-.15px;overflow-wrap:normal}.cover-title{display:flex;flex-direction:column;gap:3px;min-width:0}.cover-hint{font-size:9px;line-height:1.1;color:#e8fcff;opacity:.86;font-weight:650;max-width:106px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tag{font-size:9px;font-weight:900;display:inline-block;border-radius:12px;background:#ffffff3d;padding:4px 7px;white-space:nowrap;backdrop-filter:blur(2px)}
+/* Large category illustration embedded in the header as a low-contrast watermark. */
+.cover{isolation:isolate}
+.cover-art{position:absolute;z-index:-1;width:93px;height:93px;right:-9px;bottom:-29px;opacity:.23;pointer-events:none;transform:rotate(-12deg);color:#ffffff;mask-image:linear-gradient(105deg,transparent 2%,#000 44%)}
+.cover-art svg{display:block;width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.cover::before{content:"";position:absolute;z-index:-1;right:-18px;bottom:-48px;width:150px;height:104px;background:radial-gradient(ellipse,#ffffff24,transparent 72%);pointer-events:none}
+.cover-top{position:relative;z-index:1}
+.cover-icon{display:none}
+.card-body{padding:7px 10px 9px;display:flex;flex-direction:column;flex:1;min-height:0}
+.validity{display:inline-flex;align-items:center;align-self:flex-start;gap:5px;font-size:9px;font-weight:750;color:#477780;background:#ecf6f3;border-radius:9px;padding:4px 7px;margin:5px 0 0;line-height:1.1}
+.detail-text{margin-top:5px;font-size:11px;line-height:1.3;font-weight:900;color:#184a57;letter-spacing:-.08px;min-height:27px;display:flex;align-items:center}
+.purchase-row{margin-top:auto;display:flex;flex-direction:column;gap:4px;padding-top:3px}
+.price{color:#7d98a1;font-size:9px;line-height:1.1;font-weight:700;margin:0;white-space:nowrap}
+.price b{color:#2f6673;font-size:12px;font-weight:800}
+.activate{min-height:29px;border:0;border-radius:16px;background:var(--accent);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:6px;width:100%}
+.empty{border:1px dashed #8cbdb4;background:#eaf8eef1;padding:24px 12px;text-align:center;border-radius:17px;color:#3e6d73}
+.note{font-size:10px;color:#275b60;padding:2px 4px}
+.bottom{position:absolute;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:9px;right:9px;height:78px;border-radius:42px;border:1.5px solid white;background:linear-gradient(105deg,#c6dff4f1,#e7f9e8f2);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;padding:6px 5px;box-shadow:0 8px 24px #125a5a40;z-index:3;overflow:visible}
+.nav{border:0;background:none;color:#193a48;height:59px;border-radius:31px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:3px;flex-direction:column;min-width:0}
+.nav span{font-size:21px;font-weight:400}.nav.active{background:#1fb3bc}.brand-button{height:75px;width:75px;border-radius:50%;background:linear-gradient(155deg,#c6e72e,#35be99 60%,#15aac3);color:#fff;font-size:17px;font-weight:900;position:relative;top:-10px;border:2px solid #effbef;box-shadow:0 5px 12px #174d5c55;justify-self:center;z-index:2}
+.modal-overlay{position:absolute;inset:0;background:#0d30335e;z-index:6;display:none;align-items:end}.modal-overlay.show{display:flex}
+.sheet{background:#f5fff8;border-radius:25px 25px 0 0;width:100%;padding:20px 20px 28px;box-shadow:0 -10px 40px #0f4b5840}.sheet-head{display:flex;justify-content:space-between;align-items:center}.close{border:0;background:#dcefeb;border-radius:50%;width:29px;height:29px;font-size:19px}.sheet h2{font-size:21px;margin:9px 0}.sheet p{font-size:12px;color:#4f7177;line-height:1.5}.sheet-list{padding-left:18px;font-size:12px;line-height:1.9}.sheet-price{font-size:19px;font-weight:900;color:#0a9cad;margin:12px 0}.confirm{height:43px;width:100%;border:0;background:#13aeb9;color:#fff;border-radius:23px;font-weight:900}
+.toast{position:absolute;bottom:103px;left:50%;transform:translateX(-50%);background:#073a46;color:white;padding:9px 14px;border-radius:20px;white-space:nowrap;z-index:9;opacity:0;pointer-events:none;transition:.2s}.toast.show{opacity:1}
+@media(max-width:420px){body{overflow:hidden}.phone{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;border-radius:0;box-shadow:none}.scroll{padding-left:16px;padding-right:16px}.bottom{left:10px;right:10px}}
+@media(min-width:700px){.phone{margin:26px auto}}
+
+/* V20: coherent activation and renewal states */
+.tag-active{background:#e9fff0;color:#116a49;border:1px solid #d2f6e1;box-shadow:0 1px 5px #104a3830}
+.activate.unavailable,.confirm.unavailable{background:#cbd7db;color:#6b7f85;border:1px solid #b5c6ca;box-shadow:none;cursor:not-allowed}
+.sheet{max-height:min(82%,690px);overflow-y:auto;padding-bottom:calc(25px + env(safe-area-inset-bottom,0px))}
+.sheet-validity{display:inline-flex;align-items:center;background:#e7f5f1;color:#325f69;font-size:12px;font-weight:750;padding:7px 11px;border-radius:18px;margin:2px 0 8px}
+.sheet-active{font-size:12px;font-weight:800;color:#146a49;background:#e5f8ea;border-radius:10px;padding:9px 11px;margin:3px 0 10px}
+.sheet-active[hidden],.renewal-row[hidden],.stop-renewal[hidden]{display:none!important}
+.renewal-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #d5e9e5;border-radius:13px;background:#ecf8f3;padding:12px;margin:12px 0 8px}
+.renewal-row strong{display:block;font-size:13px}.renewal-row small{display:block;margin-top:3px;font-size:10px;color:#608088;line-height:1.4}
+.stop-renewal{flex:none;border:1px solid #bbd6d6;background:white;color:#116877;font-size:11px;font-weight:800;border-radius:20px;padding:9px 10px;min-height:36px}
+.sheet-list{margin:8px 0 12px;padding-left:20px}.sheet-list li{margin:3px 0}
+@media(max-width:360px){.scroll{padding-left:12px;padding-right:12px}.tools{gap:5px}.tool{width:38px;height:38px}.logo{font-size:30px}.bundle{flex-basis:156px;width:156px}.cover-name{font-size:11px}.hero h1{font-size:21px}.section-title{font-size:17px}}
+</style>
+</head>
+<body>
+<main class="phone">
+  <div class="scroll">
+    <header class="top">
+      <div class="logo">zain</div>
+      <div class="tools"><div class="tool">▣</div><div class="tool bell">♧</div><div class="tool">☼</div></div>
+    </header>
+
+    <div class="hero">
+      <h1>Bundles &amp; Services</h1>
+      <p>Choose the right bundle for you</p>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip active" data-filter="All">All</button>
+      <button class="chip" data-filter="Daily">Daily</button>
+      <button class="chip" data-filter="Weekly">Weekly</button>
+      <button class="chip" data-filter="Monthly">Monthly</button>
+    </div>
+
+    <div id="sections"></div>
+    <p class="note">Demo bundles and prices are illustrative, not live Zain Syria offers.</p>
+  </div>
+
+  <nav class="bottom">
+    <button class="nav" data-nav="Home"><span>⌂</span>Home</button>
+    <button class="nav active" data-nav="Bundles"><span>♧</span>Bundles</button>
+    <button class="brand-button" data-nav="Zain">◎zain</button>
+    <button class="nav" data-nav="Pay"><span>▤</span>Pay</button>
+    <button class="nav" data-nav="More"><span>•••</span>More</button>
+  </nav>
+
+  <div class="modal-overlay" id="overlay">
+    <div class="sheet" role="dialog" aria-modal="true">
+      <div class="sheet-head"><span id="sheet-category" class="eyebrow" style="color:#008e9a"></span><button class="close" id="close" aria-label="Close">×</button></div>
+      <h2 id="sheet-title"></h2>
+      <div id="sheet-description" class="sheet-validity"></div><div id="sheet-active" class="sheet-active" hidden>✓ Active on your line</div>
+      <ul class="sheet-list" id="sheet-list"></ul>
+      <div id="renewal-row" class="renewal-row" hidden><div><strong>Auto Renewal</strong><small id="renewal-desc"></small></div><button id="renewal-stop" type="button" class="stop-renewal">Turn off</button></div><div class="sheet-price" id="sheet-price"></div>
+      <button class="confirm" id="confirm">Activate Bundle</button>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+</main>
+<script>
+const catalog=[
+  {id:'d1',cat:'Data',period:'Daily',name:'1 GB Quick',hint:'General internet',valid:'1 day',price:1200,tag:'Quick pick',icon:'◉',summary:['1 GB'],details:['1 GB general internet','Valid for 1 day']},
+  {id:'d10',cat:'Data',period:'Weekly',name:'10 GB',hint:'General internet',valid:'7 days',price:4500,tag:'Popular',icon:'◎',summary:['10 GB'],details:['10 GB general internet','Valid for 7 days']},
+  {id:'d50',cat:'Data',period:'Monthly',name:'50 GB',hint:'General internet',valid:'30 days',price:12000,tag:'Best value',icon:'◉',summary:['50 GB'],details:['50 GB general internet','Valid for 30 days']},
+
+  {id:'cday',cat:'Combo',period:'Daily',name:'Combo Daily',hint:'Data + Minutes + SMS',valid:'1 day',price:1800,tag:'Easy',icon:'✦',summary:['1 GB','50 min','25 SMS'],details:['1 GB internet','50 local minutes','25 SMS','Valid for 1 day']},
+  {id:'cweek',cat:'Combo',period:'Weekly',name:'Combo Lite',hint:'Data + Minutes + SMS',valid:'7 days',price:6500,tag:'Popular',icon:'✦',summary:['10 GB','200 min','200 SMS'],details:['10 GB internet','200 local minutes','200 SMS','Valid for 7 days']},
+  {id:'cmonth',cat:'Combo',period:'Monthly',name:'Combo Max',hint:'Data + Minutes + SMS',valid:'30 days',price:18000,tag:'Best value',icon:'✦',summary:['50 GB','1,000 min','1,000 SMS'],details:['50 GB internet','1,000 local minutes','1,000 SMS','Valid for 30 days']},
+
+  {id:'rday',cat:'Roaming',period:'Daily',name:'Travel 500 MB',hint:'Selected zones',valid:'1 day',price:2500,tag:'Travel',icon:'✈',summary:['500 MB'],details:['500 MB roaming data','Selected countries','Valid for 1 day']},
+  {id:'rweek',cat:'Roaming',period:'Weekly',name:'Arab Region 2 GB',hint:'Arab region',valid:'7 days',price:10000,tag:'Regional',icon:'✈',summary:['2 GB'],details:['2 GB roaming data','Selected Arab countries','Valid for 7 days']},
+  {id:'rmonth',cat:'Roaming',period:'Monthly',name:'Global 5 GB',hint:'Global roaming',valid:'30 days',price:22000,tag:'Popular',icon:'✈',summary:['5 GB'],details:['5 GB roaming data','Eligible destinations apply','Valid for 30 days']},
+
+  {id:'oday',cat:'Offers',period:'Daily',name:'Daily Social',hint:'Social access',valid:'1 day',price:900,tag:'Offer',icon:'✧',summary:['WhatsApp'],details:['Social browsing bundle','Illustrative daily offer','Valid for 1 day']},
+  {id:'oweek',cat:'Offers',period:'Weekly',name:'Flex Week',hint:'Weekly mix',valid:'7 days',price:3500,tag:'Offer',icon:'✧',summary:['Data + mins'],details:['Flexible combination bundle','Illustrative weekly offer','Valid for 7 days']},
+  {id:'omonth',cat:'Offers',period:'Monthly',name:'Mix & Match',hint:'Custom mix',valid:'30 days',price:9000,tag:'Special',icon:'✧',summary:['Data + mins'],details:['Choose data, minutes and messaging','Flexible combination (illustrative)','Valid for 30 days']},
+  {id:'d2',cat:'Data',period:'Daily',name:'3 GB Daily',valid:'1 day',price:2200,tag:'',icon:'◉',summary:['3 GB','General internet'],details:['3 GB data','Valid for 1 day']},
+  {id:'d7',cat:'Data',period:'Weekly',name:'5 GB Weekly',valid:'7 days',price:3200,tag:'',icon:'◎',summary:['5 GB','General internet'],details:['5 GB data','Valid for 7 days']},
+  {id:'d25',cat:'Data',period:'Monthly',name:'25 GB Plus',valid:'30 days',price:8500,tag:'Popular',icon:'◎',summary:['25 GB','General internet'],details:['25 GB data','Valid for 30 days']},
+  {id:'cday2',cat:'Combo',period:'Daily',name:'Combo Boost',valid:'1 day',price:2600,tag:'',icon:'✦',summary:['2 GB','100 min','50 SMS'],details:['2 GB data','100 minutes','50 SMS']},
+  {id:'cweek2',cat:'Combo',period:'Weekly',name:'Combo Week+',valid:'7 days',price:9200,tag:'',icon:'✦',summary:['15 GB','350 min','300 SMS'],details:['15 GB data','350 minutes','300 SMS']},
+  {id:'cmonth2',cat:'Combo',period:'Monthly',name:'Combo Ultra',valid:'30 days',price:26000,tag:'Premium',icon:'✦',summary:['80 GB','2,000 min','2,000 SMS'],details:['80 GB data','2,000 minutes','2,000 SMS']},
+  {id:'rday2',cat:'Roaming',period:'Daily',name:'Travel 1 GB',valid:'1 day',price:4200,tag:'',icon:'✈',summary:['1 GB','Selected zones'],details:['1 GB roaming','Selected destinations']},
+  {id:'rweek2',cat:'Roaming',period:'Weekly',name:'Europe 3 GB',valid:'7 days',price:14500,tag:'Popular',icon:'✈',summary:['3 GB','Europe'],details:['3 GB roaming','Europe zone']},
+  {id:'rmonth2',cat:'Roaming',period:'Monthly',name:'Global 10 GB',valid:'30 days',price:39000,tag:'Best value',icon:'✈',summary:['10 GB','Global roaming'],details:['10 GB roaming','Selected zones']},
+  {id:'oday2',cat:'Offers',period:'Daily',name:'Chat Day',valid:'1 day',price:700,tag:'',icon:'✧',summary:['Messaging','24 hours'],details:['Messaging offer','Valid for 1 day']},
+  {id:'oweek2',cat:'Offers',period:'Weekly',name:'Social Week',valid:'7 days',price:4200,tag:'Popular',icon:'✧',summary:['Social data','7 days'],details:['Social data','Valid for 7 days']},
+  {id:'omonth2',cat:'Offers',period:'Monthly',name:'Family Mix',valid:'30 days',price:16000,tag:'Best value',icon:'✧',summary:['Data + calls','Family plan'],details:['Data and minutes bundle','Valid for 30 days']}
+];
+
+// Demonstration subscription states; no backend actions are performed.
+const states={
+ cmonth:{active:true,canRepeat:true,renewalSupported:true,renewalOn:true},
+ d50:{active:true,canRepeat:false,renewalSupported:false,renewalOn:false},
+ oday:{active:true,canRepeat:false,renewalSupported:true,renewalOn:true},
+ cweek:{active:true,canRepeat:true,renewalSupported:true,renewalOn:false}
+};
+const stateFor=id=>states[id]||(states[id]={active:false,canRepeat:true,renewalSupported:false,renewalOn:false});
+function buttonCopy(item){const state=stateFor(item.id);return state.active?(state.canRepeat?'Activate Again':'Already Active'):'Activate'}
+const meta={
+  Offers:{title:'Special Offers',desc:'Exclusive deals designed for you',icon:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16"/><path d="M4.5 8.5h15"/><rect x="4" y="6.5" width="16" height="4" rx="1.5"/><path d="M5 10.5v7.5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7.5"/><path d="M12 6.5c-1.6 0-2.8-.8-2.8-1.9S10.2 2.8 12 6.5Z" fill="currentColor" stroke="none" opacity=".95"/><path d="M12 6.5c1.6 0 2.8-.8 2.8-1.9S13.8 2.8 12 6.5Z" fill="currentColor" stroke="none" opacity=".95"/></svg>`},
+  Data:{title:'Data',desc:'Stay connected with the internet',icon:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5C7.5 5.6 16.5 5.6 21 9.5"/><path d="M6.2 13c3.1-2.6 8.5-2.6 11.6 0"/><path d="M9.8 16.4c1.4-1 3-1 4.4 0"/><circle cx="12" cy="19.1" r="1.35" fill="currentColor" stroke="none"/></svg>`},
+  Combo:{title:'Combo',desc:'Calls + Data + SMS',icon:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5h5.8a1.6 1.6 0 0 1 1.6 1.6v7.2a1.6 1.6 0 0 1-1.6 1.6H7a1.6 1.6 0 0 1-1.6-1.6V7.1A1.6 1.6 0 0 1 7 5.5Z"/><path d="M9 13.3h1.8"/><path d="M9.2 8.5h4"/><path d="M17.2 9.2h2.2a1.2 1.2 0 0 1 1.2 1.2v3.2a1.2 1.2 0 0 1-1.2 1.2h-1.2l-2 1.8v-1.8h-1.6"/></svg>`},
+  Roaming:{title:'Roaming',desc:'Stay connected wherever you go',icon:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 5 10.7 13.1"/><path d="m21 5-4.4 14.2-3.3-6-6-3.3L21 5Z" fill="currentColor" stroke="none"/><path d="M8.4 11.3 13 14" opacity=".0"/></svg>`}
+};
+
+let filter='All', selected=null, timer;
+const sections=document.getElementById('sections');
+const fmt=n=>'SYR '+n.toLocaleString('en-US');
+
+function summaryText(item){
+  if(item.cat==='Combo') return `${item.summary[1]} + ${item.summary[0]} + ${item.summary[2]}`;
+  if(item.cat==='Data') return `${item.summary[0]} internet`;
+  if(item.cat==='Roaming') return `${item.summary[0]} roaming data`;
+  return `${item.summary[0]}`;
+}
+
+function detailMarkup(item){
+  return `<div class="detail-text">${summaryText(item)}</div>`;
+}
+
+function headerArt(cat){
+  const icons={
+    Data:'<path d="M11 32a31 31 0 0 1 42 0"/><path d="M18 40a22 22 0 0 1 28 0"/><path d="M26 48a11 11 0 0 1 12 0"/><circle cx="32" cy="55" r="2" fill="currentColor" stroke="none"/>',
+    Combo:'<path d="M17 11c4-2 8-1 10 2l5 8-5 6c3 6 7 10 13 13l6-5 8 5c3 2 4 6 2 10-2 5-7 7-13 6C23 52 12 41 8 21c-1-5 2-9 9-10z"/><path d="M36 11a19 19 0 0 1 17 17"/><path d="M39 18a11 11 0 0 1 7 8"/>',
+    Roaming:'<circle cx="32" cy="32" r="25"/><path d="M7 32h50M32 7c-11 12-11 38 0 50M32 7c11 12 11 38 0 50M13 20h38M13 44h38"/><path d="m43 20 10-6-3 11"/>',
+    Offers:'<rect x="11" y="23" width="42" height="32" rx="4"/><path d="M32 23v32M11 34h42"/><path d="M32 23C15 21 15 7 23 8c7 0 9 15 9 15ZM32 23C49 21 49 7 41 8c-7 0-9 15-9 15Z"/>'
+  };
+  return `<span class="cover-art" aria-hidden="true"><svg viewBox="0 0 64 64">${icons[cat]||icons.Data}</svg></span>`;
+}
+
+function render(){
+  sections.innerHTML='';
+  const cats=['Offers','Data','Combo','Roaming'];
+  let visibleCount=0;
+
+  for(const cat of cats){
+    const items=catalog.filter(item=>item.cat===cat && (filter==='All' || item.period===filter));
+    if(!items.length) continue;
+    visibleCount += items.length;
+
+    const section=document.createElement('section');
+    section.className='section';
+    section.innerHTML=`<div class="section-head"><div class="section-icon" aria-hidden="true">${meta[cat].icon}</div><div class="section-copy"><div class="section-title">${meta[cat].title}</div><div class="section-desc">${meta[cat].desc}</div></div></div><div class="rail"></div>`;
+
+    const rail=section.querySelector('.rail');
+    for(const item of items){
+      const card=document.createElement('article');
+      card.className='bundle '+item.cat.toLowerCase().replace('offers','offer');
+      card.innerHTML=`
+        <div class="cover">
+          ${headerArt(item.cat)}
+          <div class="cover-top">
+            <div class="cover-title"><div class="cover-name">${item.name}</div>${item.hint?`<div class="cover-hint">${item.hint}</div>`:''}</div>
+            ${stateFor(item.id).active?`<span class="tag tag-active">✓ Active</span>`:(item.tag?`<span class="tag">${item.tag}</span>`:'')}
+          </div>
+          <span class="cover-icon">${item.icon}</span>
+        </div>
+        <div class="card-body">
+          ${detailMarkup(item)}
+          <div class="validity"><span aria-hidden="true">▦</span> ${item.valid}</div>
+          <div class="purchase-row"><div class="price">Price <b>${fmt(item.price)}</b></div><button class="activate ${stateFor(item.id).active&&!stateFor(item.id).canRepeat?'unavailable':''}" aria-disabled="${stateFor(item.id).active&&!stateFor(item.id).canRepeat}" data-id="${item.id}">${buttonCopy(item)} <span aria-hidden="true">›</span></button></div>
+        </div>`;
+      rail.append(card);
+    }
+    sections.append(section);
+  }
+
+  if(!visibleCount){
+    sections.innerHTML='<div class="empty">No bundles available for this duration.</div>';
+  }
+}
+
+function toast(text){
+  const el=document.getElementById('toast');
+  el.textContent=text;
+  el.classList.add('show');
+  clearTimeout(timer);
+  timer=setTimeout(()=>el.classList.remove('show'),2400);
+}
+
+sections.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-id]');
+  if(!btn) return;
+  selected=catalog.find(x=>x.id===btn.dataset.id);
+  document.getElementById('sheet-category').textContent=selected.cat+' · '+selected.period;
+  document.getElementById('sheet-title').textContent=selected.name;
+  document.getElementById('sheet-description').textContent=`▦ ${selected.valid}`;
+  document.getElementById('sheet-list').innerHTML=selected.details.filter(t=>!/^valid for /i.test(t)).map(t=>`<li>${t}</li>`).join('');
+  const state=stateFor(selected.id);
+  document.getElementById('sheet-active').hidden=!state.active;
+  document.getElementById('renewal-row').hidden=!(state.active&&state.renewalSupported);
+  document.getElementById('renewal-desc').textContent=state.renewalOn?'Enabled · renews at expiry':'Off · no automatic renewal';
+  document.getElementById('renewal-stop').hidden=!state.renewalOn;
+  const confirm=document.getElementById('confirm');
+  confirm.textContent=buttonCopy(selected);
+  confirm.classList.toggle('unavailable',state.active&&!state.canRepeat);
+  confirm.setAttribute('aria-disabled',String(state.active&&!state.canRepeat));
+  document.getElementById('sheet-price').textContent=fmt(selected.price);
+  document.getElementById('overlay').classList.add('show');
+});
+
+document.getElementById('filters').addEventListener('click',e=>{
+  const chip=e.target.closest('.chip');
+  if(!chip) return;
+  filter=chip.dataset.filter;
+  document.querySelectorAll('.chip').forEach(x=>x.classList.toggle('active', x===chip));
+  render();
+});
+
+document.getElementById('close').onclick=()=>document.getElementById('overlay').classList.remove('show');
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')e.currentTarget.classList.remove('show')});
+document.getElementById('renewal-stop').onclick=()=>{
+  if(!selected)return;
+  const state=stateFor(selected.id);
+  state.renewalOn=false;
+  document.getElementById('renewal-desc').textContent='Off · no automatic renewal';
+  document.getElementById('renewal-stop').hidden=true;
+  toast('Auto renewal turned off');
+};
+document.getElementById('confirm').onclick=()=>{
+  if(!selected)return;
+  const state=stateFor(selected.id);
+  if(state.active&&!state.canRepeat){toast('This bundle can only be activated once.');return;}
+  const again=state.active;
+  state.active=true;
+  document.getElementById('overlay').classList.remove('show');
+  render();
+  toast(again?'Bundle activated again':'Bundle activated');
+};
+document.querySelectorAll('[data-nav]').forEach(el=>el.onclick=()=>{if(el.dataset.nav!=='Bundles') toast('Demo: '+el.dataset.nav)});
+
+render();
+</script>
+</body>
+</html>
+
